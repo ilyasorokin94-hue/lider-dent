@@ -15,8 +15,8 @@
    "tall"
   ],
   [
-   "images/real/vrach-i-assistent.webp",
-   "Врач и ассистент в кабинете",
+   "images/real/kabinet-oktyabrskaya.webp",
+   "Лечебный кабинет на Октябрьской",
    ""
   ],
   [
@@ -25,13 +25,13 @@
    "tall"
   ],
   [
-   "images/real/komanda-shar-zub.webp",
-   "Наша команда",
+   "images/real/vrach-i-assistent.webp",
+   "Врач и ассистент в кабинете",
    ""
   ],
   [
-   "images/real/lampa.webp",
-   "Полимеризационная лампа",
+   "images/real/resepshn-oktyabrskaya.webp",
+   "Ресепшн на Октябрьской",
    "tall"
   ]
  ],
@@ -47,8 +47,8 @@
    "tall"
   ],
   [
-   "images/real/komanda-shary.webp",
-   "Праздник в кабинете",
+   "images/real/holl-tolstogo.webp",
+   "Холл клиники на Л. Толстого",
    ""
   ],
   [
@@ -57,8 +57,8 @@
    "tall"
   ],
   [
-   "images/real/assistenty-igrushka.webp",
-   "Ассистенты клиники",
+   "images/real/kabinet-tolstogo.webp",
+   "Лечебный кабинет на Л. Толстого",
    ""
   ]
  ],
@@ -101,8 +101,8 @@
     true
    ],
    [
-    "images/real/lampa.webp",
-    "Полимеризационная лампа",
+    "images/real/resepshn-oktyabrskaya.webp",
+    "Ресепшн на Октябрьской",
     "410 / 628",
     false
    ],
@@ -119,15 +119,12 @@
     true
    ],
    [
-    "images/real/uf-kamera.webp",
-    "Стерильные инструменты в УФ-камере",
+    "images/real/kt-apparat.webp",
+    "Аппарат КТ в клинике",
     "410 / 628",
     false
    ]
   ]
  },
- "ask": {
-  "images/real/fasad-tolstogo.webp": "Адрес взят по имени файла на сайте клиники, сверить с клиникой",
-  "images/real/fasad-oktyabrskaya.webp": "Адрес взят по имени файла на сайте клиники, сверить с клиникой"
- }
+ "ask": {}
 }
