@@ -86,3 +86,25 @@
 - Баннеры и рекламные картинки: akcii/*, home/*banner*, home/2024-05_pmrmi, home/2026-10_obshhaya-18-noyabrya, media-library/2024-11_buklet-1-1-kopiya.
 - Бывшие или не указанные на сайте сотрудники: media-library/not-in-current-team/* (Мамбетов, Батчаева, Врублевская, Вышегородцева, Омаров, Меграбян, Кривошеев «куратор лечения», Писарев, Гончарова, Бабанлы, Козлова). На странице команды их сейчас нет.
 - Логотипы страховых для блока ДМС: raw/site/dms-partners (Ингосстрах, РЕСО, Альфастрахование).
+
+## Яндекс Карты и 2ГИС (photos/yandex, photos/2gis)
+
+15 лучших кадров интерьеров, фасадов и оборудования, в кадре нет людей. Остальные фото площадок (Яндекс 258 + 33 кадра сторис, 2ГИС 233) лежат только на компьютере, в raw.
+
+| Файл | Что на фото | Кто (по подписи) | Филиал | Размер | Источник | Исходник |
+|---|---|---|---|---|---|---|
+| yandex/okt-kabinet-obshchij.jpg | Лечебный кабинет: кресло, бирюзовые шкафы, монитор, окна с жалюзи | людей нет | Октябрьская, 202 | 2400×1597 | https://yandex.ru/maps/org/lider_dent/103452608871/gallery/ | `raw/yandex-oktyabrskaya/photos/yokt_001_vnutri.jpg` |
+| yandex/okt-kt-apparat.jpg | Аппарат КТ/ОПТГ и защитный фартук на стене | людей нет | Октябрьская, 202 | 2400×1597 | https://yandex.ru/maps/org/lider_dent/103452608871/gallery/ | `raw/yandex-oktyabrskaya/photos/yokt_002_vnutri-oborud.jpg` |
+| yandex/okt-rabochee-mesto-kt.jpg | Рабочее место: мониторы со снимками КТ, фотоаппараты для фотопротокола | людей нет | Октябрьская, 202 | 2400×1597 | https://yandex.ru/maps/org/lider_dent/103452608871/gallery/ | `raw/yandex-oktyabrskaya/photos/yokt_004_oborud.jpg` |
+| yandex/okt-avtoklav.jpg | Стерилизационная: открытый автоклав | людей нет | Октябрьская, 202 | 2400×1597 | https://yandex.ru/maps/org/lider_dent/103452608871/gallery/ | `raw/yandex-oktyabrskaya/photos/yokt_022_vnutri-oborud.jpg` |
+| yandex/okt-resepshn-neon-logo.jpg | Стойка ресепшн с неоновым логотипом на кирпичной стене, без людей | людей нет | Октябрьская, 202 | 1800×2400 | https://yandex.ru/maps/org/lider_dent/103452608871/gallery/ | `raw/yandex-oktyabrskaya/photos/yokt_051_vnutri.jpg` |
+| yandex/okt-fasad.jpg | Фасад: угловой вход «Стоматология» на первом этаже многоэтажного дома | людей нет | Октябрьская, 202 | 2000×1172 | https://yandex.ru/maps/org/lider_dent/103452608871/gallery/ | `raw/yandex-oktyabrskaya/photos/yokt_020_bez-tega.jpg` |
+| yandex/tol-fasad.jpg | Фасад: двухэтажное здание с вывеской «Лидер Dент», вход на 2 этаж | людей нет | Л. Толстого, 121Б | 2400×1349 | https://yandex.ru/maps/org/lider_dent/120244608451/gallery/ | `raw/yandex-tolstogo/photos/ytol_024_vhod.jpg` |
+| yandex/tol-holl-kresla.jpg | Холл: светлые кресла, лестница, телевизор | людей нет | Л. Толстого, 121Б | 1600×1200 | https://yandex.ru/maps/org/lider_dent/120244608451/gallery/ | `raw/yandex-tolstogo/photos/ytol_026_vnutri.jpg` |
+| yandex/tol-kabinet.jpg | Светлый лечебный кабинет с креслом | людей нет | Л. Толстого, 121Б | 1600×1200 | https://yandex.ru/maps/org/lider_dent/120244608451/gallery/ | `raw/yandex-tolstogo/photos/ytol_073_vnutri.jpg` |
+| yandex/tol-resepshn.jpg | Ресепшн и витрина, на экране «Номинант Премии 2ГИС», без людей | людей нет | Л. Толстого, 121Б | 2400×1600 | https://yandex.ru/maps/org/lider_dent/120244608451/gallery/ | `raw/yandex-tolstogo/photos/ytol_135_vnutri.jpg` |
+| yandex/tol-oborudovanie-lazer.jpg | Оборудование на столе: стоматологические аппараты с наконечниками, защитные очки | людей нет | Л. Толстого, 121Б | 2400×1600 | https://yandex.ru/maps/org/lider_dent/120244608451/gallery/ | `raw/yandex-tolstogo/photos/ytol_138_oborud.jpg` |
+| yandex/tol-vyveska-nebo.jpg | Вывеска «Лидер Dент стоматологическая клиника» на фоне неба | людей нет | Л. Толстого, 121Б | 2400×1600 | https://yandex.ru/maps/org/lider_dent/120244608451/gallery/ | `raw/yandex-tolstogo/photos/ytol_159_vhod.jpg` |
+| 2gis/tol-kabinet-2.jpg | Лечебный кабинет с мятным креслом и рабочими шкафами | людей нет | Л. Толстого, 121Б | 1440×1080 | https://2gis.ru/stavropol/gallery/firm/70000001068840490 | `raw/2gis/tolstogo/gtol_101_vnutri.jpg` |
+| 2gis/tol-kabinet-sverhu.jpg | Кабинет, вид сверху | людей нет | Л. Толстого, 121Б | 1440×1080 | https://2gis.ru/stavropol/gallery/firm/70000001068840490 | `raw/2gis/tolstogo/gtol_113_vnutri.jpg` |
+| 2gis/okt-vyveska-super-liderdent.jpg | Настольная вывеска «Super Лидер Dент» и средства гигиены | людей нет | Октябрьская, 202 | 1440×960 | https://2gis.ru/stavropol/gallery/firm/70000001027420233 | `raw/2gis/oktyabrskaya/gokt_092_bez-tega.jpg` |
