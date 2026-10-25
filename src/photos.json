@@ -1,0 +1,133 @@
+{
+ "frame": [
+  "images/real/komanda-v-kabinete.webp",
+  "Команда «Лидер Дент» в лечебном кабинете"
+ ],
+ "CL": [
+  [
+   "images/real/komanda-vhod.webp",
+   "Команда у входа на Октябрьской",
+   ""
+  ],
+  [
+   "images/real/assistent-zub.webp",
+   "Ассистент с моделью зуба",
+   "tall"
+  ],
+  [
+   "images/real/vrach-i-assistent.webp",
+   "Врач и ассистент в кабинете",
+   ""
+  ],
+  [
+   "images/real/model-implanty.webp",
+   "Модель челюсти с имплантами",
+   "tall"
+  ],
+  [
+   "images/real/komanda-shar-zub.webp",
+   "Наша команда",
+   ""
+  ],
+  [
+   "images/real/lampa.webp",
+   "Полимеризационная лампа",
+   "tall"
+  ]
+ ],
+ "CL2": [
+  [
+   "images/real/fasad-tolstogo.webp",
+   "Клиника на Л. Толстого, 121Б",
+   ""
+  ],
+  [
+   "images/real/vrachi-kt.webp",
+   "Врачи разбирают снимок КТ",
+   "tall"
+  ],
+  [
+   "images/real/komanda-shary.webp",
+   "Праздник в кабинете",
+   ""
+  ],
+  [
+   "images/real/operaciya.webp",
+   "Операция имплантации",
+   "tall"
+  ],
+  [
+   "images/real/assistenty-igrushka.webp",
+   "Ассистенты клиники",
+   ""
+  ]
+ ],
+ "exam": [
+  "images/real/vrach-v-kabinete.webp",
+  "Врач в кабинете перед осмотром"
+ ],
+ "mobile": {
+  "w1": [
+   "images/real/assistent-zub.webp",
+   "Ассистент с моделью зуба"
+  ],
+  "w2": [
+   "images/real/komanda-krug.webp",
+   "Команда клиники в кабинете"
+  ],
+  "w3": [
+   "images/real/fasad-oktyabrskaya.webp",
+   "Вход в клинику на Октябрьской, 202"
+  ],
+  "main": [
+   "images/real/komanda-v-kabinete.webp",
+   "Команда «Лидер Дент» в лечебном кабинете"
+  ],
+  "right": [
+   "images/real/komanda-vhod.webp",
+   "Команда у входа на Октябрьской"
+  ],
+  "grid": [
+   [
+    "images/real/model-implanty.webp",
+    "Модель челюсти с имплантами",
+    "410 / 628",
+    false
+   ],
+   [
+    "images/real/vrachi-kt.webp",
+    "Врачи разбирают снимок КТ",
+    "410 / 628",
+    true
+   ],
+   [
+    "images/real/lampa.webp",
+    "Полимеризационная лампа",
+    "410 / 628",
+    false
+   ],
+   [
+    "images/real/operaciya.webp",
+    "Операция имплантации",
+    "410 / 628",
+    false
+   ],
+   [
+    "images/real/komanda-koridor.webp",
+    "Команда клиники",
+    "410 / 628",
+    true
+   ],
+   [
+    "images/real/uf-kamera.webp",
+    "Стерильные инструменты в УФ-камере",
+    "410 / 628",
+    false
+   ]
+  ]
+ },
+ "ask": {
+  "images/real/fasad-tolstogo.webp": "Адрес взят по имени файла на сайте клиники, сверить с клиникой",
+  "images/real/fasad-oktyabrskaya.webp": "Адрес взят по имени файла на сайте клиники, сверить с клиникой"
+ }
+}
