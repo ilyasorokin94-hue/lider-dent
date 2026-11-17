@@ -72,6 +72,16 @@ try:
 except Exception:
     IMG_VW = {}
 
+def variants(base):
+    """Все ширины одной картинки для srcset: основной файл и копии -s, -m, -l рядом с ним."""
+    out = {}
+    if base.endswith('.webp'):
+        for suf in ('-s', '-m', '-l', ''):
+            f = base[:-5] + suf + '.webp' if suf else base
+            d = _dims(f) if os.path.exists(os.path.join(ROOT, f)) else None
+            if d: out[d[0]] = f
+    return sorted(out.items())
+
 def img(path, alt='', cls='', style='', extra=''):
     if not path:
         return ''
@@ -79,13 +89,14 @@ def img(path, alt='', cls='', style='', extra=''):
     d = _dims(path)
     if d and 'width=' not in extra:
         a += f' width="{d[0]}" height="{d[1]}"'
-    # у крупных фото есть копия 900 px для телефонов
+    # у фото есть копии разной ширины: браузер берёт ближайшую к размеру показа (sizes=auto у ленивых картинок)
     base = path.split('?')[0]
     q = path[len(base):]
-    m = base[:-5] + '-m.webp'
-    if base.endswith('.webp') and os.path.exists(os.path.join(ROOT, m)) and 'srcset' not in extra and d:
-        dm = _dims(m)
-        a += f' srcset="{m}{q} {dm[0]}w, {path} {d[0]}w" sizes="(max-width: 760px) 60vw, {IMG_VW.get(base, 50)}vw"'
+    vs = variants(base)
+    if len(vs) > 1 and 'srcset' not in extra and d:
+        a += ' srcset="' + ', '.join(f'{f}{q} {w}w' for w, f in vs) + '"'
+        if 'sizes=' not in extra:
+            a += f' sizes="auto, (max-width: 760px) 60vw, {IMG_VW.get(base, 50)}vw"'
     if cls: a += f' class="{cls}"'
     if style: a += f' style="{style}"'
     if extra: a += ' ' + extra
@@ -101,14 +112,14 @@ ASK.update(P.get('ask', {}))
 
 # ---------- HEAD ----------
 SITE_URL = 'https://ilyasorokin94-hue.github.io/lider-dent/'
-TITLE = 'Стоматология «Лидер Дент» в Ставрополе: импланты, брекеты, лечение до полуночи'
-DESC = 'Семейная стоматология в Ставрополе: Октябрьская, 202 (до 24:00) и Л. Толстого, 121Б. Имплантация и «Всё на 4», брекеты и элайнеры, лечение зубов, детский приём. Осмотр бесплатно.'
+TITLE = 'Стоматология «Лидер Дент» в Ставрополе: импланты, брекеты, до 24:00'
+DESC = 'Семейная стоматология в Ставрополе на Октябрьской, 202 (до 24:00) и Л. Толстого, 121Б: импланты и «Всё на 4», брекеты, лечение зубов. Осмотр бесплатно.'
 THEME = '#15171c'
 head_end = s.index('</head>')
 head = s[:head_end]
 head = re.sub(r'<title>.*?</title>', f'<title>{TITLE}</title>', head)
 head = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{DESC}">', head)
-head = re.sub(r'<link rel="canonical"[^>]*>\n', '', head)
+head = re.sub(r'<link rel="canonical"[^>]*>', f'<link rel="canonical" href="{SITE_URL}">', head)
 head = re.sub(r'<meta property="og:[^>]*>\n', '', head)
 head = head.replace('<meta name="theme-color" content="#ffffff">',
                     f'<meta property="og:type" content="website">\n<meta property="og:title" content="{TITLE}">\n<meta property="og:description" content="{DESC}">\n<meta property="og:locale" content="ru_RU">\n<meta property="og:url" content="{SITE_URL}">\n<meta property="og:image" content="{SITE_URL}images/og.jpg">\n<meta property="og:image:width" content="1200">\n<meta property="og:image:height" content="630">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="theme-color" content="{THEME}">')
@@ -134,7 +145,7 @@ LD["department"] = [ld_place(BR[1])]
 head += '<script type="application/ld+json">' + json.dumps(LD, ensure_ascii=False) + '</script>\n'
 head = head.replace('<script src="assets/cookie.js?v=886e3f70" data-privacy="privacy/" data-ym="" defer></script>',
                     '<script src="assets/cookie.js?v=886e3f70" data-privacy="#" data-ym="" defer></script>')
-head = re.sub(r'<script src="assets/hero-3d.js[^"]*" defer></script>\n', '<script>addEventListener("load",function(){var go=function(){var t=document.createElement("script");t.src="assets/logo-3d.js?v=ld1";document.head.appendChild(t)};window.requestIdleCallback?requestIdleCallback(go,{timeout:1500}):setTimeout(go,300)})</script>\n', head)
+head = re.sub(r'<script src="assets/hero-3d.js[^"]*" defer></script>\n', '<script>addEventListener("load",function(){if(!matchMedia("(min-width: 761px)").matches)return;var go=function(){var t=document.createElement("script");t.src="assets/logo-3d.js?v=ld1";document.head.appendChild(t)};window.requestIdleCallback?requestIdleCallback(go,{timeout:1500}):setTimeout(go,300)})</script>\n', head)
 # латиницу не грузим заранее: в заголовке первого экрана только кириллица
 head = re.sub(r'<link rel="preload" href="assets/fonts/[a-z-]+-latin\.woff2"[^>]*>\n', '', head)
 head = head.replace('<script src="assets/app.js?v=9b97a404" defer></script>', '<script src="assets/preloader.js?v=ld1" defer></script>\n<script src="assets/app.js?v=ld1" defer></script>')
@@ -268,13 +279,14 @@ row1 = ''.join(tfig(*c) for c in CL) + ''.join(tfig(*c, hidden=True) for c in CL
 row2 = ''.join(tfig(*c) for c in CL2) + ''.join(tfig(*c, hidden=True) for c in CL2)
 TOUR_T = ['Здесь', 'улыбки', 'на первом', 'месте']
 TOUR_P = 'Две клиники в Ставрополе: на Октябрьской, 202 и на Л. Толстого, 121Б. Семейная стоматология с 2018 года: лечим взрослых и детей, ставим импланты и брекеты, работаем по ДМС.'
-def full(p):
-    d = _dims(p)
-    return f'srcset="{p} {d[0]}w" sizes="100vw"' if d else ''
+def full(p, auto=False):
+    # окна мобильного тура увеличиваются при прокрутке: берём по ширине экрана; карточки сетки по своей ширине
+    vs = variants(p)
+    return f'srcset="{", ".join(f"{f} {w}w" for w, f in vs)}" sizes="{"auto, " if auto else ""}100vw"' if vs else ''
 def pwin(p, alt, ar, p0, p1, pos, cls=''):
     return f'<div class="ptour__item{cls}"><div class="ptour__win" style="--ar:{ar};--p0:{p0};--p1:{p1}"><span class="ptour__rail">{img(p, alt, "ptour__img", "object-position:" + pos, full(p))}</span></div></div>'
 def pfig(p, alt, r, par=False):
-    return f'<figure class="ptour__fig"{" data-par" if par else ""} style="--r:{r}"><span class="ptour__pic">{img(p, alt, extra=full(p))}</span></figure>'
+    return f'<figure class="ptour__fig"{" data-par" if par else ""} style="--r:{r}"><span class="ptour__pic">{img(p, alt, extra=full(p, auto=True))}</span></figure>'
 M = P['mobile']
 TOUR = f'''<section class="tour on-dark" id="clinic" aria-labelledby="tr-title">
   <div class="tour__pin">
@@ -390,7 +402,7 @@ def doc_card(d, col):
     full_name = f'{d["fam"]} {d["name"]} {d["otch"]}'
     role = d['role'] + (f' · {d["exp"]}' if d.get('exp') else '')
     return f'''<article class="doc" data-tags="{d["tags"]}" data-col="{col}">
-  <div class="doc__photo" data-ph><span class="doc__initials" aria-hidden="true">{d["ini"]}</span>{img(doc_photo(d), full_name, extra='sizes="auto, (max-width: 760px) 80vw, 30vw"')}
+  <div class="doc__photo" data-ph><span class="doc__initials" aria-hidden="true">{d["ini"]}</span>{img(doc_photo(d), full_name, extra='sizes="auto, (max-width: 760px) 48vw, 22vw"')}
     <a class="doc__cover" href="zapis?doctor={d["slug"]}" data-modal="book" data-doctor="{d["slug"]}" tabindex="-1" aria-hidden="true"></a>
     <a class="doc__go" href="zapis?doctor={d["slug"]}" data-modal="book" data-doctor="{d["slug"]}" aria-label="Записаться: {d["name"]} {d["fam"]}">{ARROW}</a></div>
   <h3><a href="zapis?doctor={d["slug"]}" data-modal="book" data-doctor="{d["slug"]}">{full_name}</a></h3>
@@ -432,11 +444,11 @@ REV = f'''<section class="section reviews" id="reviews" aria-labelledby="rv-titl
     </div>
     <div class="rt-sites">
       <a class="rt-site" href="{YA}reviews/" target="_blank" rel="noopener" data-goal="reviews_yandex">
-        <span class="rt-site__top"><span class="rt-mark rt-mark--ya"><img src="images/brand/yandex-maps.svg" alt="" loading="lazy" decoding="async"></span><span class="rt-site__val">{YA_RATE}{STAR}</span></span>
+        <span class="rt-site__top"><span class="rt-mark rt-mark--ya"><img src="images/brand/yandex-maps.svg" alt="" width="16" height="16" loading="lazy" decoding="async"></span><span class="rt-site__val">{YA_RATE}{STAR}</span></span>
         <span><span class="rt-site__name">Яндекс Карты</span><span class="rt-site__count">{YA_VOTES} {plural(YA_VOTES, "оценка", "оценки", "оценок")}, {YA_REV} {plural(YA_REV, "отзыв", "отзыва", "отзывов")}</span></span>
         <span class="rt-site__link">Смотреть отзывы</span>
       </a><a class="rt-site" href="{GIS}/tab/reviews" target="_blank" rel="noopener" data-goal="reviews_2gis">
-        <span class="rt-site__top"><span class="rt-mark rt-mark--2gis"><img src="images/brand/2gis.webp" alt="" loading="lazy" decoding="async"></span><span class="rt-site__val">{GIS_RATE}{STAR}</span></span>
+        <span class="rt-site__top"><span class="rt-mark rt-mark--2gis"><img src="images/brand/2gis.webp" alt="" width="160" height="160" loading="lazy" decoding="async"></span><span class="rt-site__val">{GIS_RATE}{STAR}</span></span>
         <span><span class="rt-site__name">2ГИС</span><span class="rt-site__count">{GIS_VOTES} {plural(GIS_VOTES, "оценка", "оценки", "оценок")}, {GIS_REV} {plural(GIS_REV, "отзыв", "отзыва", "отзывов")}</span></span>
         <span class="rt-site__link">Смотреть отзывы</span>
       </a>
@@ -599,6 +611,10 @@ s = re.sub(r'\+7\W903\W797-76-88', PHONE, s)
 s = s.replace('images/brand/header-logo-light.svg', 'images/brand/header-logo.svg')
 s = s.replace('Вайтис', 'Лидер Дент').replace('White Teeth', 'Лидер Дент')
 
+# ловушка для ботов: скрытое поле в каждой форме заявки, обработчик отбрасывает заявку, если оно заполнено
+HP = '<label class="hp-field" aria-hidden="true">Сайт<input type="text" name="website" tabindex="-1" autocomplete="off"></label>'
+s, n = re.subn(r'(<form [^>]*data-lead="[^"]+"[^>]*>)', lambda m: m.group(1) + HP, s)
+assert n >= 5, n
 # ---------- палитра: Илья выбрал вариант 2 (17.11), переключатель убран ----------
 s = s.replace('<html lang="ru" data-page="home">', '<html lang="ru" data-page="home" data-pal="2">', 1)
 assert 'data-pal="2"' in s
