@@ -394,3 +394,9 @@ body .pr4-card .pr-price b{font-size:clamp(30px,3.6vw,64px);line-height:1.05;whi
   #spec[data-v="5"] li:before{content:"";width:28px;height:2px;background:var(--ld-acc)}
 }
 html.au-loading .au-vp{opacity:0;pointer-events:none}
+/* окно записи без колонки врачей: одна колонка с формой */
+.modal__box.invite{width:min(560px,100%);grid-template-columns:minmax(0,1fr)}
+/* контакты: живая карта Яндекса видна сразу, двигается после нажатия */
+.ctum .place__map--live iframe{display:block;z-index:1}
+.ctum .place__map--live:not(.is-live):not(.is-active) iframe{pointer-events:none}
+.ctum .place__map--live.is-live .place__unlock{display:none}

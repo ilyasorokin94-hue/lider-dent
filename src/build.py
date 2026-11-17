@@ -496,7 +496,8 @@ block('<section class="section faqv" id="faq"', '</div></section>', FAQS)
 # ---------- КОНТАКТЫ: два филиала ----------
 def place(b, i):
     return f'''<div class="place ld-place{" ld-place--alt" if i else ""}">
-    <div class="place__map place__map--img" data-clip>{img("images/map/map.svg", f"Карта: стоматология «Лидер Дент», {b['addr']}", "place__img")}<span class="place__pin" aria-hidden="true">{b["name"]}</span><iframe title="Карта: стоматология «Лидер Дент», {b['addr']}" data-src="https://yandex.ru/map-widget/v1/org/lider_dent/{b['ya_id']}/" loading="lazy"></iframe><button class="place__unlock" type="button">Нажмите, чтобы двигать карту</button></div>
+    <!-- живая карта Яндекса сразу (решение Ильи 17.11), вместо рисованной заглушки; двигать после нажатия -->
+    <div class="place__map place__map--img place__map--live" data-clip><iframe title="Карта: стоматология «Лидер Дент», {b['addr']}" src="https://yandex.ru/map-widget/v1/org/lider_dent/{b['ya_id']}/" loading="lazy" allowfullscreen></iframe><button class="place__unlock" type="button">Нажмите, чтобы двигать карту</button></div>
     <div class="place__info" data-reveal>
       <h3>{b["addr"].replace("ул. ", "")}</h3>
       <dl class="place__list">
@@ -585,19 +586,23 @@ s = s.replace('href="ceny/"', 'href="#services"').replace('href="vrachi/"', 'hre
 s = s.replace('action="spasibo/"', 'action="#"')
 s = re.sub(r'стоматология в\W*Одинцово', 'стоматология в Ставрополе', s)
 s = s.replace('Хирург, ортопед и терапевт осмотрят вас вместе, сделаем КТ.', 'Хирург-имплантолог осмотрит вас, сделаем КТ и составим план.')
-inv = ''.join(f'<li><span class="invite__pic" data-ph><span class="doc__initials" aria-hidden="true">{d["ini"]}</span>{img(doc_photo(d), d["name"] + " " + d["fam"])}</span><b>{d["short"]}</b><span>{d["name"]}<br>{d["fam"]}</span></li>' for d in FACES)
-s = re.sub(r'<ul class="invite__docs">.*?</ul>', '<ul class="invite__docs">' + inv + '</ul>', s, flags=re.S)
+# окно «Консультация и план лечения»: без колонки «Врачи клиники» (правка Ильи 17.11), только форма
+s, n = re.subn(r'\n?\s*<div class="invite__team">.*?</ul>\s*</div>', '', s, count=1, flags=re.S)
+assert n == 1, 'invite__team не найден'
+s, n = re.subn(r'Консультация\sс\sосмотром\sпод\sмикроскопом\sбесплатно', 'Осмотр и консультация врача бесплатно', s)
+assert n == 1, 'плашка про микроскоп не найдена'
+# у клиники нет MAX: ссылка ведёт в WhatsApp, подпись тоже WhatsApp
+s = s.replace(f'href="{WA}" target="_blank" rel="noopener">MAX</a>', f'href="{WA}" target="_blank" rel="noopener">WhatsApp</a>')
+s, n = re.subn(r'можете\sприслать\sснимок\sв\sTelegram\sили\sMAX,\sврач\sпосмотрит\sего\sдо\sвизита\.', 'можете написать нам в Telegram или WhatsApp.', s)
+assert n == 1, 'текст окна «Спасибо» не найден'
 s = re.sub(r'\+7\W903\W797-76-88', PHONE, s)
 s = s.replace('images/brand/header-logo-light.svg', 'images/brand/header-logo.svg')
 s = s.replace('Вайтис', 'Лидер Дент').replace('White Teeth', 'Лидер Дент')
 
-# ---------- демо-переключатель палитры (убрать после выбора Ильи) ----------
-VPANEL = """<div class="au-vp" role="group" aria-label="Варианты оформления (демо)"><b>Палитра</b>
-<span class="au-vp__g" data-t="pal"><button data-v="1">1</button><button data-v="2">2</button></span></div>
-<script>(function(){var K="ld-v-";function set(t,v){var el=document.documentElement;el.setAttribute("data-"+t,v);document.querySelectorAll('.au-vp__g[data-t="'+t+'"] button').forEach(function(b){b.classList.toggle("on",b.getAttribute("data-v")==v)});try{localStorage.setItem(K+t,v)}catch(e){}if(window.__ld3d)window.__ld3d()}
-document.querySelectorAll(".au-vp__g").forEach(function(g){var t=g.getAttribute("data-t"),v="1";try{v=localStorage.getItem(K+t)||"1"}catch(e){}set(t,v);g.addEventListener("click",function(e){var b=e.target.closest("button");if(b)set(t,b.getAttribute("data-v"))})})})();</script>
-"""
-s = s.replace('</body>', OPEN_JS + VPANEL + '</body>', 1)
+# ---------- палитра: Илья выбрал вариант 2 (17.11), переключатель убран ----------
+s = s.replace('<html lang="ru" data-page="home">', '<html lang="ru" data-page="home" data-pal="2">', 1)
+assert 'data-pal="2"' in s
+s = s.replace('</body>', OPEN_JS + '</body>', 1)
 # свои стили встраиваем в страницу: на один блокирующий запрос меньше
 s = s.replace('<link rel="stylesheet" href="assets/lider-dent.css?v=ld1">', '<style>' + re.sub(r'/\*.*?\*/', '', open(os.path.join(ROOT, 'assets/lider-dent.css'), encoding='utf-8').read().replace('\n', '')) + '</style>')
 s = re.sub(r'href="zapis(\?doctor=\w+)?"', 'href="#contacts"', s)
